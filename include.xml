@@ -28,9 +28,6 @@
 		<dependency path="frameworks/ISFacebookAdapter.framework"/>
 		<dependency path="frameworks/ISAdMobAdapter.framework" />
 
-
-
-		<template path="templates/PROJ-Info.plist" rename="${APP_TITLE}-Info.plist" />
 	</section>
 
 </project>
