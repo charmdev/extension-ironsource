@@ -27,11 +27,12 @@ dependencies {
 	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.ironsourceMediationSdk}"
 
 	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.playServicesGamesVersion}"
-	implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
-	implementation 'com.google.android.gms:play-services-basement:17.1.1'
+	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.playServicesGamesIdentifier}"
+	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.playServicesGamesBasement}"
 	
 	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.fbAdsSdk}"
-	implementation 'com.applovin:applovin-sdk:9.13.4'
+	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.applovinSdk}"
 	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.unityAds}"
-	implementation 'com.vungle:publisher-sdk-android:6.7.0'
+	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.vungleSdk}"
+	
 }
