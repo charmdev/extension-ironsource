@@ -27,8 +27,7 @@ dependencies {
 	implementation "com.ironsource.sdk:mediationsdk:${rootProject.ext.ironsourceMediationSdk}"
 
 	implementation "com.google.android.gms:play-services-ads:${rootProject.ext.playServicesAds}"
-	implementation "com.google.android.gms:play-services-ads-identifier:${rootProject.ext.playServicesGamesIdentifier}"
-	implementation "com.google.android.gms:play-services-basement:${rootProject.ext.playServicesGamesBasement}"
+	
 	
 	implementation "com.facebook.android:audience-network-sdk:${rootProject.ext.fbAdsSdk}"
 	implementation "com.applovin:applovin-sdk:${rootProject.ext.applovinSdk}"
