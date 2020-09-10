@@ -24,15 +24,14 @@ dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
 	compile project(':deps:extension-api')
 
-	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.ironsourceMediationSdk}"
+	implementation "com.ironsource.sdk:mediationsdk:${rootProject.ext.ironsourceMediationSdk}"
 
-	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.playServicesGamesVersion}"
-	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.playServicesGamesIdentifier}"
-	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.playServicesGamesBasement}"
+	implementation "com.google.android.gms:play-services-ads:${rootProject.ext.playServicesGamesVersion}"
+	implementation "com.google.android.gms:play-services-ads-identifier:${rootProject.ext.playServicesGamesIdentifier}"
+	implementation "com.google.android.gms:play-services-basement:${rootProject.ext.playServicesGamesBasement}"
 	
-	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.fbAdsSdk}"
-	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.applovinSdk}"
-	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.unityAds}"
-	implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.vungleSdk}"
-	
+	implementation "com.facebook.android:audience-network-sdk:${rootProject.ext.fbAdsSdk}"
+	implementation "com.applovin:applovin-sdk:${rootProject.ext.applovinSdk}"
+	implementation "com.unity3d.ads:unity-ads:${rootProject.ext.unityAds}"
+	implementation "com.vungle:publisher-sdk-android:${rootProject.ext.vungleSdk}"
 }
