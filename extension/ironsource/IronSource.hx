@@ -12,7 +12,8 @@ class IronSource {
 #end
 
 	private static var initialized:Bool = false;
-	public static var __showRewarded:Void->Void = function() {}
+	public static var __init:IronSource->String->Void = JNI.createStaticMethod("org/haxe/extension/ironsource/IronSourceEx", "init", "(Lorg/haxe/lime/HaxeObject;Ljava/lang/String;)V");
+	public static var __showRewarded:Void->Void = JNI.createStaticMethod("org/haxe/extension/ironsource/IronSourceEx", "showRewarded", "()V");
 	private static var completeCB:Void->Void;
 	private static var skipCB:Void->Void;
 	private static var canshow:Bool = false;
@@ -24,10 +25,6 @@ class IronSource {
 		initialized = true;
 #if android
 		try {
-			var __init:IronSource->String->Void =
-			JNI.createStaticMethod("org/haxe/extension/ironsource/IronSourceEx", "init", "(Ljava/lang/String;)V");
-			__showRewarded = JNI.createStaticMethod("org/haxe/extension/ironsource/IronSourceEx", "showRewarded", "()V");
-
 			__init(instance, appkey);
 		} catch(e:Dynamic) {
 			trace("IS Error: "+e);
