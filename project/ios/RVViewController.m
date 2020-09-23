@@ -39,7 +39,7 @@ extern "C" void ISsendAdsEvent(char* event);
 	NSLog(@"%s", __PRETTY_FUNCTION__);
 
 	if (available) {
-		ISsendAdsEvent("ISrewardedcanshow");
+		ISsendAdsEvent("rewardedcanshow");
 		self.giveReward = false;
 	}  
 }

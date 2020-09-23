@@ -27,7 +27,7 @@ class IronSource {
 		try {
 			__init(instance, appkey);
 		} catch(e:Dynamic) {
-			trace("IS Error: "+e);
+			trace("IS REWARDED Error: "+e);
 		}
 #elseif ios
 		try{
@@ -37,7 +37,7 @@ class IronSource {
 
 			__ISads_set_event_handle(ISnotifyListeners);
 		}catch(e:Dynamic){
-			trace("IS iOS INIT Exception: "+e);
+			trace("IS REWARDED iOS INIT Exception: "+e);
 		}
 #end
 	}
@@ -67,12 +67,12 @@ class IronSource {
 	{
 		var event:String = Std.string(Reflect.field(inEvent, "type"));
 
-		if (event == "ISrewardedcanshow")
+		if (event == "rewardedcanshow")
 		{
 			canshow = true;
 			trace("IS REWARDED CAN SHOW");
 		}
-		else  if (event == "rewardedcompleted")
+		else if (event == "rewardedcompleted")
 		{
 			trace("IS REWARDED COMPLETED");
 			dispatchEventIfPossibleIS("CLOSED");
@@ -80,7 +80,7 @@ class IronSource {
 		}
 		else if (event == "rewardedskip")
 		{
-			trace("IS VIDEO IS SKIPPED");
+			trace("IS REWARDED VIDEO IS SKIPPED");
 			dispatchEventIfPossibleIS("CLOSED");
 			if (skipCB != null) skipCB();
 		}
@@ -103,7 +103,7 @@ class IronSource {
 	}
 	public function onVideoSkipped()
 	{
-		trace("IS VIDEO IS SKIPPED");
+		trace("IS REWARDED VIDEO IS SKIPPED");
 		dispatchEventIfPossibleIS("CLOSED");
 		if (skipCB != null) skipCB();
 	}
