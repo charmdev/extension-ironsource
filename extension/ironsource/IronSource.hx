@@ -78,7 +78,7 @@ class IronSource {
 			dispatchEventIfPossibleIS("CLOSED");
 			if (completeCB != null) completeCB();
 		}
-		else if (event == "rewardedskipped")
+		else if (event == "rewardedskip")
 		{
 			trace("IS VIDEO IS SKIPPED");
 			dispatchEventIfPossibleIS("CLOSED");
