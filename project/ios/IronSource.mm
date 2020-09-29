@@ -12,7 +12,7 @@ namespace ironsourceex {
 		rvViewController = [RVViewController alloc];
 
 		[rvViewController init:appkey];
-	}			
+	}
 
 	void showRewarded() { 
 		NSLog(@"%s", __PRETTY_FUNCTION__);

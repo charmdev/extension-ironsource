@@ -4,7 +4,6 @@
 
 @interface RVViewController () <ISRewardedVideoDelegate>
 
-@property (nonatomic, strong) ISPlacementInfo   *rvPlacementInfo;
 @property (assign) BOOL giveReward;
 
 @end
@@ -27,11 +26,10 @@ extern "C" void ISsendAdsEvent(char* event);
 	NSLog(@"%s", __PRETTY_FUNCTION__);
 
 	if ([IronSource hasRewardedVideo]) {
-
-		UIWindow *windows = [[UIApplication sharedApplication].delegate window];
-		UIViewController *vc = windows.rootViewController;
-
-		[IronSource showRewardedVideoWithViewController:vc];
+		
+		UIViewController *viewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+		
+		[IronSource showRewardedVideoWithViewController:viewController];
 	}
 }
 
@@ -62,11 +60,13 @@ extern "C" void ISsendAdsEvent(char* event);
 
 - (void)rewardedVideoDidClose {
 	NSLog(@"%s", __PRETTY_FUNCTION__);
-	
-	if (self.giveReward)  {
-	  ISsendAdsEvent("rewardedcompleted");
+
+	if (self.giveReward)
+	{
+		ISsendAdsEvent("rewardedcompleted");
 	}
-	else {
+	else
+	{
 		ISsendAdsEvent("rewardedskip");
 	}
 }
