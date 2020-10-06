@@ -10,7 +10,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "ISGender.h"
 #import "ISBannerDelegate.h"
 #import "ISRewardedVideoDelegate.h"
 #import "ISOfferwallDelegate.h"
@@ -26,7 +25,7 @@
 #import "ISDemandOnlyRewardedVideoDelegate.h"
 #import "ISDemandOnlyInterstitialDelegate.h"
 #import "ISBannerSize.h"
-
+#import "ISImpressionDataDelegate.h"
 NS_ASSUME_NONNULL_BEGIN
 
 #define IS_REWARDED_VIDEO @"rewardedvideo"
@@ -34,8 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 #define IS_OFFERWALL @"offerwall"
 #define IS_BANNER @"banner"
 
-static NSString * const MEDIATION_SDK_VERSION     = @"7.0.1";
-static NSString * GitHash = @"2274c4cf0";
+static NSString * const MEDIATION_SDK_VERSION     = @"7.0.2";
+static NSString * GitHash = @"9e023a0c3";
 
 @interface IronSource : NSObject
 
@@ -46,23 +45,6 @@ static NSString * GitHash = @"2274c4cf0";
  @return NSString representing the current IronSource SDK version.
  */
 + (NSString *)sdkVersion;
-
-
-/**
- @abstact Sets a numeric representation of the current user's age.
- @discussion This value will be passed to the supporting ad networks.
-
- @param age The user's age. Should be between 5 and 120.
- */
-+ (void)setAge:(NSInteger)age;
-
-/**
- @abstact Sets the gender of the current user.
- @discussion This value will be passed to the supporting ad networks.
-
- @param gender The user's gender.
- */
-+ (void)setGender:(ISGender)gender;
 
 /**
  @abstract Sets if IronSource SDK should track network changes.
@@ -144,6 +126,16 @@ static NSString * GitHash = @"2274c4cf0";
 
 */
 + (void)setMetaDataWithKey:(NSString *)key value:(NSString *)value;
+
+/**
+ @abstact Sets the meta data with a key and values.
+ @discussion This value will be passed to the supporting ad networks.
+ 
+ @param key The meta data key.
+ @param values The meta data values
+ 
+ */
++ (void)setMetaDataWithKey:(NSString *)key values:(NSMutableArray *) values;
 
 /**
 @abstact used for demand only API, return the bidding data token.
@@ -478,6 +470,17 @@ static NSString * GitHash = @"2274c4cf0";
 + (void)setLogDelegate:(id<ISLogDelegate>)delegate;
 
 + (void)setConsent:(BOOL)consent;
+
+
+#pragma mark - Impression Data
+
+/**
+ @abstract Sets the delegate for impression data callbacks.
+
+ @param delegate The 'ISImpressionDataDelegate' for IronSource to send callbacks to.
+ */
+
++ (void)setImpressionDataDelegate:(id<ISImpressionDataDelegate>)delegate;
 
 @end
 

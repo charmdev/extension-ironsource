@@ -39,7 +39,8 @@ framework module IronSource {
     header "ISRewardedVideoDelegate.h"
     header "ISDemandOnlyRewardedVideoDelegate.h"
     header "ISSupersonicAdsConfiguration.h"
-    
-    
+    header "ISImpressionDataDelegate.h"
+    header "ISImpressionData.h"
+
     
 }
