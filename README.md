@@ -1,4 +1,4 @@
-## extension-facebookads
+## extension-ironsource
 
 ```xml
 <haxelib name="extension-ironsource" />
