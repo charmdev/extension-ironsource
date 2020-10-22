@@ -18,7 +18,7 @@ AutoGCRoot* is_adsEventHandle = 0;
 
 static void ISads_set_event_handle(value onEvent)
 {
-    is_adsEventHandle = new AutoGCRoot(onEvent);
+	is_adsEventHandle = new AutoGCRoot(onEvent);
 }
 DEFINE_PRIM(ISads_set_event_handle, 1);
 
@@ -46,8 +46,8 @@ extern "C" int ironsourceex_register_prims () { return 0; }
 
 extern "C" void ISsendAdsEvent(const char* type)
 {
-    printf("Send Event IS: %s\n", type);
-    value o = alloc_empty_object();
-    alloc_field(o,val_id("type"),alloc_string(type));
-    val_call1(is_adsEventHandle->get(), o);
+	printf("IS Send Event: %s\n", type);
+	value o = alloc_empty_object();
+	alloc_field(o,val_id("type"),alloc_string(type));
+	val_call1(is_adsEventHandle->get(), o);
 }

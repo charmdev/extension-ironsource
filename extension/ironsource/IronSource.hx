@@ -43,6 +43,7 @@ class IronSource {
 	}
 
 	public static function canShowAds():Bool {
+		trace("IronSource canShowAds", canshow);
 		return canshow;
 	}
 
@@ -67,18 +68,20 @@ class IronSource {
 	{
 		var event:String = Std.string(Reflect.field(inEvent, "type"));
 
-		if (event == "rewardedcanshow")
+		if (event == "IS_rewardedcanshow")
 		{
 			canshow = true;
 			trace("IS REWARDED CAN SHOW");
+			return;
 		}
-		else if (event == "rewardedcompleted")
+
+		if (event == "IS_rewardedcompleted")
 		{
 			trace("IS REWARDED COMPLETED");
 			dispatchEventIfPossibleIS("CLOSED");
 			if (completeCB != null) completeCB();
 		}
-		else if (event == "rewardedskip")
+		else if (event == "IS_rewardedskip")
 		{
 			trace("IS REWARDED VIDEO IS SKIPPED");
 			dispatchEventIfPossibleIS("CLOSED");

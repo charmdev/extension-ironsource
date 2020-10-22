@@ -4,7 +4,10 @@
 
 @interface RVViewController () <ISRewardedVideoDelegate>
 
+@property (assign) BOOL sentResult;
 @property (assign) BOOL giveReward;
+@property (assign) BOOL waitReward;
+@property (assign) BOOL videoWatched;
 
 @end
 
@@ -26,6 +29,11 @@ extern "C" void ISsendAdsEvent(char* event);
 	NSLog(@"%s", __PRETTY_FUNCTION__);
 
 	if ([IronSource hasRewardedVideo]) {
+
+		self.sentResult = false;
+		self.giveReward = false;
+		self.waitReward = false;
+		self.videoWatched = false;
 		
 		UIViewController *viewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
 		
@@ -37,46 +45,68 @@ extern "C" void ISsendAdsEvent(char* event);
 	NSLog(@"%s", __PRETTY_FUNCTION__);
 
 	if (available) {
-		ISsendAdsEvent("rewardedcanshow");
-		self.giveReward = false;
-	}  
+		ISsendAdsEvent("IS_rewardedcanshow");
+	}
 }
 
 - (void)didReceiveRewardForPlacement:(ISPlacementInfo *)placementInfo {
 	NSLog(@"%s", __PRETTY_FUNCTION__);
 
 	self.giveReward = true;
+
+	if (!self.sentResult && self.waitReward)
+	{
+		ISsendAdsEvent("IS_rewardedcompleted");
+		self.sentResult = true;
+		self.waitReward = false;
+	}
+}
+
+- (void)rewardedVideoDidClose {
+	NSLog(@"%s", __PRETTY_FUNCTION__);
+	
+	if (self.giveReward && !self.sentResult)
+	{
+		ISsendAdsEvent("IS_rewardedcompleted");
+		self.sentResult = true;
+	}
+	else if (!self.giveReward && self.videoWatched)
+	{
+		self.waitReward = true;
+	}
+	else if (!self.giveReward && !self.videoWatched && !self.sentResult)
+	{
+		ISsendAdsEvent("IS_rewardedskip");
+		self.sentResult = true;
+	}
+	else if (!self.sentResult)
+	{
+		ISsendAdsEvent("IS_rewardedskip");
+		self.sentResult = true;
+	}
 }
 
 - (void)rewardedVideoDidFailToShowWithError:(NSError *)error {
 	NSLog(@"%s", __PRETTY_FUNCTION__);
 
+	self.sentResult = false;
 	self.giveReward = false;
-}
-
-- (void)rewardedVideoDidOpen {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-
-- (void)rewardedVideoDidClose {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
-
-	if (self.giveReward)
-	{
-		ISsendAdsEvent("rewardedcompleted");
-	}
-	else
-	{
-		ISsendAdsEvent("rewardedskip");
-	}
+	self.waitReward = false;
+	self.videoWatched = false;
 }
 
 - (void)rewardedVideoDidStart {
 	NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
+- (void)rewardedVideoDidOpen {
+	NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
 - (void)rewardedVideoDidEnd {
 	NSLog(@"%s", __PRETTY_FUNCTION__);
+
+	self.videoWatched = true;
 }
 
 - (void)didClickRewardedVideo:(ISPlacementInfo *)placementInfo {
@@ -93,9 +123,7 @@ extern "C" void ISsendAdsEvent(char* event);
 
 	if (@available(iOS 13.0, *)) {
 		[UITraitCollection setCurrentTraitCollection:[[UITraitCollection alloc]init]];
-	} else {
-		// Fallback on earlier versions
-	};
+	}
 	return [[UITraitCollection alloc]init];
 }
 
