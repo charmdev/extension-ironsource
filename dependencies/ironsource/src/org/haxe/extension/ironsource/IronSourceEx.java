@@ -97,6 +97,13 @@ public class IronSourceEx extends Extension
 				Log.d(TAG, "onRewardedVideoAdShowFailed " + error);
 				giveReward = false;
 				rewardSended = false;
+
+				if (Extension.mainView == null) return;
+					GLSurfaceView view = (GLSurfaceView) Extension.mainView;
+					view.queueEvent(new Runnable() {
+						public void run() {
+							_callback.call("onVideoSkipped", new Object[] {});
+					}});
 			}
 			
 			@Override

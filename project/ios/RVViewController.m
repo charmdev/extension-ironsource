@@ -93,6 +93,8 @@ extern "C" void ISsendAdsEvent(char* event);
 	self.giveReward = false;
 	self.waitReward = false;
 	self.videoWatched = false;
+
+	ISsendAdsEvent("IS_rewardedskip");
 }
 
 - (void)rewardedVideoDidStart {
