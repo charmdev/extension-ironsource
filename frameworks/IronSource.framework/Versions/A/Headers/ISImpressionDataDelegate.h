@@ -18,8 +18,6 @@
 
 - (void)impressionDataDidSucceed:(ISImpressionData *)impressionData;
 
-- (void)impressionDataDidFail:(ISImpressionData *)impressionData;
-
 @end
 
 #endif /* ISImpressionDataDelegate_h */

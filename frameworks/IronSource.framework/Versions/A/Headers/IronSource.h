@@ -26,6 +26,8 @@
 #import "ISDemandOnlyInterstitialDelegate.h"
 #import "ISBannerSize.h"
 #import "ISImpressionDataDelegate.h"
+#import "ISConsentViewDelegate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 #define IS_REWARDED_VIDEO @"rewardedvideo"
@@ -33,8 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 #define IS_OFFERWALL @"offerwall"
 #define IS_BANNER @"banner"
 
-static NSString * const MEDIATION_SDK_VERSION     = @"7.0.2";
-static NSString * GitHash = @"9e023a0c3";
+static NSString * const MEDIATION_SDK_VERSION     = @"7.1.0";
+static NSString * GitHash = @"733d9d360";
 
 @interface IronSource : NSObject
 
@@ -480,7 +482,48 @@ static NSString * GitHash = @"9e023a0c3";
  @param delegate The 'ISImpressionDataDelegate' for IronSource to send callbacks to.
  */
 
-+ (void)setImpressionDataDelegate:(id<ISImpressionDataDelegate>)delegate;
++ (void)setImpressionDataDelegate:(id<ISImpressionDataDelegate>)delegate __attribute__((deprecated("use addImpressionDataDelegate instead")));
+
+/**
+ @abstract Adds the delegate for impression data callbacks.
+
+ @param delegate The 'ISImpressionDataDelegate' for IronSource to send callbacks to.
+ */
+
+
++ (void)addImpressionDataDelegate:(id<ISImpressionDataDelegate>)delegate;
+
+/**
+ @abstract Removes  the delegate from impression data callbacks.
+
+ @param delegate The 'ISImpressionDataDelegate' for IronSource to send callbacks to.
+ */
+
++ (void)removeImpressionDataDelegate:(id<ISImpressionDataDelegate>)delegate;
+
+
+#pragma mark - Consent View
+
+/**
+ @abstract Sets the delegate for consent view callbacks.
+ 
+ @param delegate The 'ISConsentViewDelegate' for IronSource to send callbacks to.
+ */
++ (void)setConsentViewWithDelegate:(id<ISConsentViewDelegate>)delegate;
+
+/**
+ @abstract Load consent view.
+ 
+ @param consentViewType The type of the view (pre/post).
+ */
++ (void)loadConsentViewWithType:(NSString *)consentViewType;
+
+/**
+ @abstract Show consent view after load.
+ 
+ @param consentViewType The type of the view (pre/post).
+ */
++ (void)showConsentViewWithViewController:(UIViewController *)viewController andType:(NSString *)consentViewType;
 
 @end
 

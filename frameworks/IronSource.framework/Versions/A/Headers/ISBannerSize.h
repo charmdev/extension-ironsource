@@ -22,7 +22,7 @@ static NSString * const kSizeCustom = @"CUSTOM";
 
 @interface ISBannerSize : NSObject
 
-#define ISBannerSize_LEADERBOARD [[ISBannerSize alloc] initWithDescription:kSizeSmart width:728 height:90]
+#define ISBannerSize_LEADERBOARD [[ISBannerSize alloc] initWithDescription:kSizeLeaderboard width:728 height:90]
 
 - (instancetype)initWithWidth:(NSInteger)width andHeight:(NSInteger)height;
 - (instancetype)initWithDescription:(NSString *)description width:(NSInteger)width height:(NSInteger)height;

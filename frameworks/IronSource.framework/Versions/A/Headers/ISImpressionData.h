@@ -12,8 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ISImpressionData : NSObject
 
-
-
 @property (readonly, copy) NSString*    _Nullable auction_id;
 @property (readonly, copy) NSString*    _Nullable ad_unit;
 @property (readonly, copy) NSString*    _Nullable ad_network;
