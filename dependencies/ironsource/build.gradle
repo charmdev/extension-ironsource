@@ -12,25 +12,24 @@ android {
 	buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 }
 
-buildscript {
-	repositories {
-		maven {
-			url 'https://dl.bintray.com/ironsource-mobile/android-sdk'
-		}
-	}
-}
-
 dependencies {
-	compile fileTree(dir: 'libs', include: ['*.jar'])
+	
 	compile project(':deps:extension-api')
 
 	implementation "com.ironsource.sdk:mediationsdk:${rootProject.ext.ironsourceMediationSdk}"
 
 	implementation "com.google.android.gms:play-services-ads:${rootProject.ext.playServicesAds}"
-	
-	
 	implementation "com.facebook.android:audience-network-sdk:${rootProject.ext.fbAdsSdk}"
 	implementation "com.applovin:applovin-sdk:${rootProject.ext.applovinSdk}"
 	implementation "com.unity3d.ads:unity-ads:${rootProject.ext.unityAds}"
 	implementation "com.vungle:publisher-sdk-android:${rootProject.ext.vungleSdk}"
+	implementation "com.adcolony:sdk:${rootProject.ext.adcolonySdk}"
+
+	implementation "com.ironsource.adapters:adcolonyadapter:4.3.7"
+	implementation "com.ironsource.adapters:admobadapter:4.3.16"
+	implementation "com.ironsource.adapters:applovinadapter:4.3.22"
+	implementation "com.ironsource.adapters:facebookadapter:4.3.24"
+	implementation "com.ironsource.adapters:unityadsadapter:4.3.10"
+	implementation "com.ironsource.adapters:vungleadapter:4.3.8"
+
 }
