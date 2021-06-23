@@ -101,18 +101,22 @@ extern "C" void ISsendAdsEvent(char* event);
 	NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
-- (void)rewardedVideoDidOpen {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-
 - (void)rewardedVideoDidEnd {
 	NSLog(@"%s", __PRETTY_FUNCTION__);
 
 	self.videoWatched = true;
 }
 
+- (void)rewardedVideoDidOpen {
+	NSLog(@"%s", __PRETTY_FUNCTION__);
+
+	ISsendAdsEvent("IS_rewarded_displaying");
+}
+
 - (void)didClickRewardedVideo:(ISPlacementInfo *)placementInfo {
 	NSLog(@"%s", __PRETTY_FUNCTION__);
+
+	ISsendAdsEvent("IS_rewarded_click");
 }
 
 - (void)didReceiveMemoryWarning {
