@@ -29,10 +29,15 @@ public class IronSourceEx extends Extension
 		IronSourceEx.initIS(appkey, "");
 	}
 
-	public static void initIS(String appKey, String userId) {
+    public static void initIS(String appKey, String userId) {
 
 		IronSource.setRewardedVideoListener(new RewardedVideoListener() {
 
+			@Override
+			public void onRewardedVideoAdOpened() {
+				Log.d(TAG, "onRewardedVideoAdOpened");
+			}
+			
 			@Override
 			public void onRewardedVideoAdClosed() {
 				Log.d(TAG, "onRewardedVideoAdClosed " + giveReward + " " + rewardSended);
@@ -100,30 +105,10 @@ public class IronSourceEx extends Extension
 							_callback.call("onVideoSkipped", new Object[] {});
 					}});
 			}
-
-			@Override
-			public void onRewardedVideoAdOpened() {
-				Log.d(TAG, "onRewardedVideoAdOpened");
-
-				if (Extension.mainView == null) return;
-				GLSurfaceView view = (GLSurfaceView) Extension.mainView;
-				view.queueEvent(new Runnable() {
-					public void run() {
-						_callback.call("onRewardedDisplaying", new Object[] {});
-				}});
-			}
-			
 			
 			@Override
 			public void onRewardedVideoAdClicked(Placement placement) {
 				Log.d(TAG, "onRewardedVideoAdClicked");
-
-				if (Extension.mainView == null) return;
-				GLSurfaceView view = (GLSurfaceView) Extension.mainView;
-				view.queueEvent(new Runnable() {
-					public void run() {
-						_callback.call("onRewardedClick", new Object[] {});
-				}});
 			}
 
 			@Override
