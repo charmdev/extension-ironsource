@@ -16,6 +16,8 @@ class IronSource {
 	public static var __showRewarded:Void->Void = JNI.createStaticMethod("org/haxe/extension/ironsource/IronSourceEx", "showRewarded", "()V");
 	private static var completeCB:Void->Void;
 	private static var skipCB:Void->Void;
+	private static var viewCB:Void->Void;
+	private static var clickCB:Void->Void;
 	private static var canshow:Bool = false;
 	public static var onRewardedEvent:String->Void = null;
 
@@ -47,7 +49,7 @@ class IronSource {
 		return canshow;
 	}
 
-	public static function showRewarded(cb, skip) {
+	public static function showRewarded(cb, skip, displaying, click) {
 		
 		canshow = false;
 
@@ -55,6 +57,9 @@ class IronSource {
 
 		completeCB = cb;
 		skipCB = skip;
+		viewCB = displaying;
+		clickCB = click;
+
 
 		try {
 			__showRewarded();
@@ -87,6 +92,19 @@ class IronSource {
 			dispatchEventIfPossibleIS("CLOSED");
 			if (skipCB != null) skipCB();
 		}
+		else if (event == "IS_rewarded_displaying")
+		{
+			trace("IS REWARDED VIDEO Displaying");
+			dispatchEventIfPossibleIS("DISPLAY");
+			if (viewCB != null) viewCB();
+		}
+		else if (event == "IS_rewarded_click")
+		{
+			trace("IS REWARDED VIDEO clicked");
+			dispatchEventIfPossibleIS("CLICK");
+			if (clickCB != null) clickCB();
+		}
+		
 	}
 #elseif android
 
@@ -96,6 +114,20 @@ class IronSource {
 	{
 		canshow = true;
 		trace("IS REWARDED CAN SHOW");
+	}
+
+	public function onRewardedDisplaying()
+	{
+		trace("IS REWARDED Displaying");
+		dispatchEventIfPossibleIS("DISPLAY");
+		if (viewCB != null) viewCB();
+	}
+
+	public function onRewardedClick()
+	{
+		trace("IS REWARDED click");
+		dispatchEventIfPossibleIS("CLICK");
+		if (clickCB != null) clickCB();
 	}
 
 	public function onRewardedCompleted()
