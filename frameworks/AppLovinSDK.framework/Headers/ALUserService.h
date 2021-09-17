@@ -13,16 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface ALUserService : NSObject
 
-/**
- * Show the user consent dialog to the user using one from AppLovin's SDK. You should check that you actually need to show the consent dialog
- * by checking `ALSdkConfiguration.consentDialogState` in the completion block of `ALSdk#initializeSdkWithCompletionHandler`.
- */
-- (void)showConsentDialogWithCompletionHandler:(void (^_Nullable)(void))completionHandler;
-
-
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
+@end
+
+@interface ALUserService(ALDeprecated)
+- (void)showConsentDialogWithCompletionHandler:(void (^_Nullable)(void))completionHandler __deprecated_msg("This version of the consent flow has been deprecated as of v7.0.0, please refer to our documentation for enabling the new consent flow.");
 @end
 
 NS_ASSUME_NONNULL_END

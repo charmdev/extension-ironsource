@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Remove the provided subscriber from the set of subscribers for the given topics.
  */
-- (void)unsubscribe:(id<ALCSubscriber>)subscriber forTopics:(NSArray<NSString *> *)topic;
+- (void)unsubscribe:(id<ALCSubscriber>)subscriber forTopics:(NSArray<NSString *> *)topics;
 
 /**
  * The messaging service for the communicator SDK responsible for relaying messages within the system.

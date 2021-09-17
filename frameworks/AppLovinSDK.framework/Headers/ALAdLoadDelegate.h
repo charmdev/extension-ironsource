@@ -11,29 +11,32 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This protocol defines a listener for ad load events.
+ * This service loads an ad.
  */
 @class ALAdService;
 
+/**
+ * This protocol defines a listener for ad load events.
+ */
 @protocol ALAdLoadDelegate <NSObject>
 
 /**
- * This method is invoked when an ad is loaded by the AdService.
+ * The SDK invokes this method when an ad is loaded by the AdService.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
- * @param adService AdService which loaded the ad. Will not be nil.
- * @param ad        Ad that was loaded. Will not be nil.
+ * @param adService AdService that loaded the ad.
+ * @param ad        Ad that was loaded.
  */
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad;
 
 /**
- * This method is invoked when an ad load fails.
+ * The SDK invokes this method when an ad load fails.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
- * @param adService AdService which failed to load an ad. Will not be nil.
- * @param code      An error code corresponding with a constant defined in <code>ALErrorCodes.h</code>.
+ * @param adService AdService that failed to load an ad.
+ * @param code      An error code that corresponds to one of the constants defined in ALErrorCodes.h.
  */
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code;
 

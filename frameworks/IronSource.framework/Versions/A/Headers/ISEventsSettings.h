@@ -12,6 +12,7 @@
 
 @property (nonatomic, assign, readonly) BOOL        sendUltraEvents;
 @property (nonatomic, assign, readonly) BOOL        sendEventsToggle;
+@property (nonatomic, assign, readonly) BOOL        compressEvents;
 @property (nonatomic, strong, readonly) NSURL       *serverEventsURL;
 @property (nonatomic, assign, readonly) NSUInteger  backupThreshold;
 @property (nonatomic, assign, readonly) NSUInteger 	maxNumberOfEvents;
@@ -24,6 +25,7 @@
 
 - (instancetype)initWithSendUltraEvents:(BOOL)sendEvents
                        sendEventsToggle:(BOOL)eventsToggle
+                         compressEvents:(BOOL)compressEvents
                         serverEventsURL:(NSURL *)serverUrl
                         backupThreshold:(NSUInteger)backupThreshold
                       maxNumberOfEvents:(NSUInteger)maxNumberOfEvents

@@ -35,8 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
 #define IS_OFFERWALL @"offerwall"
 #define IS_BANNER @"banner"
 
-static NSString * const MEDIATION_SDK_VERSION     = @"7.1.0";
-static NSString * GitHash = @"733d9d360";
+static NSString * const MEDIATION_SDK_VERSION     = @"7.1.10";
+static NSString * GitHash = @"b863c622b";
+
+/*
+    This constant is for sending an external impression data from mopub
+*/
+static NSString * const DataSource_MOPUB     = @"MoPub";
+
 
 @interface IronSource : NSObject
 
@@ -101,7 +107,7 @@ static NSString * GitHash = @"733d9d360";
  
  @param segment A segment name, which should not exceed 64 characters.
  */
-+ (void)setMediationSegment:(NSString *)segment;
++ (void)setMediationSegment:(NSString *)segment __attribute__((deprecated("This method has been deprecated and won’t be included in ironSource SDK versions 7.2.0 and above.")));
 
 /**
  @abstract Sets a segment.
@@ -482,7 +488,7 @@ static NSString * GitHash = @"733d9d360";
  @param delegate The 'ISImpressionDataDelegate' for IronSource to send callbacks to.
  */
 
-+ (void)setImpressionDataDelegate:(id<ISImpressionDataDelegate>)delegate __attribute__((deprecated("use addImpressionDataDelegate instead")));
++ (void)setImpressionDataDelegate:(id<ISImpressionDataDelegate>)delegate __attribute__((deprecated("This method has been deprecated and won’t be included in ironSource SDK versions 7.2.0 and above. Please use addImpressionDataDelegate instead.")));
 
 /**
  @abstract Adds the delegate for impression data callbacks.
@@ -492,6 +498,18 @@ static NSString * GitHash = @"733d9d360";
 
 
 + (void)addImpressionDataDelegate:(id<ISImpressionDataDelegate>)delegate;
+
+/**
+ @abstract Ad revenue data
+ 
+ @param dataSource the external source id from which the impression data is sent.
+ @param impressionData the impression data
+
+ */
++ (void)setAdRevenueDataWithDataSource:(NSString *)dataSource
+                        impressionData:(NSData *)impressionData;
+
+
 
 /**
  @abstract Removes  the delegate from impression data callbacks.
@@ -525,8 +543,17 @@ static NSString * GitHash = @"733d9d360";
  */
 + (void)showConsentViewWithViewController:(UIViewController *)viewController andType:(NSString *)consentViewType;
 
+
+#pragma mark - Conversion Value (CV)
+
+/**
+ @abstract get current conversion value
+*/
++ (NSNumber *)getConversionValue;
+
 @end
 
 NS_ASSUME_NONNULL_END
+
 
 #endif

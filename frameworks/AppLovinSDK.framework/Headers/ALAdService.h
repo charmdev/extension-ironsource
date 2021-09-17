@@ -15,53 +15,52 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This class is responsible for providing and displaying ads.
+ * This class provides and displays ads.
  */
 @interface ALAdService : NSObject
 
 /**
- * Fetch a new ad, of a given size, notifying a supplied delegate on completion.
+ * Fetches a new ad, of a given size, and notifies a supplied delegate on completion.
  *
- * @param adSize    Size of an ad to load. Must not be nil.
- * @param delegate  A callback to notify of the fact that the ad is loaded.
+ * @param adSize    Size of an ad to load.
+ * @param delegate  A callback that @c loadNextAd calls to notify of the fact that the ad is loaded.
  */
 - (void)loadNextAd:(ALAdSize *)adSize andNotify:(id<ALAdLoadDelegate>)delegate;
 
 /**
- * Fetch a new ad, for a given zone, notifying a supplied delegate on completion.
+ * Fetches a new ad, for a given zone, and notifies a supplied delegate on completion.
  *
- * @param zoneIdentifier  The identifier of the zone to load an ad for. Must not be nil.
- * @param delegate        A callback to notify of the fact that the ad is loaded.
+ * @param zoneIdentifier  The identifier of the zone to load an ad for.
+ * @param delegate        A callback that @c loadNextAdForZoneIdentifier calls to notify of the fact that the ad is loaded.
  */
 - (void)loadNextAdForZoneIdentifier:(NSString *)zoneIdentifier andNotify:(id<ALAdLoadDelegate>)delegate;
 
 /**
- * Generates a token used for advanced header bidding.
+ * A token used for advanced header bidding.
  */
 @property (nonatomic, copy, readonly) NSString *bidToken;
 
 /**
- * Fetch a new ad for the given ad token. Provided ad token must be received from AppLovin S2S API.
+ * Fetches a new ad for the given ad token. The provided ad token must be one that was received from AppLovin S2S API.
  *
- * <b>Please note:</b> this method is designed to be called by SDK mediation providers. Please use
- * <code>loadNextAdForZoneIdentifier:andNotify:</code> for regular integrations.
+ * @warning This method is designed to be called by SDK mediation providers. Use @code -[ALAdService loadNextAdForZoneIdentifiers:andNotify:] @endcode for
+ *          regular integrations.
  *
- * @param adToken   Ad token returned from AppLovin S2S API. Must not be nil.
- * @param delegate  A callback to notify that the ad has been loaded. Must not be nil.
+ * @param adToken   Ad token returned from AppLovin S2S API.
+ * @param delegate  A callback that @c loadNextAdForAdToken calls to notify that the ad has been loaded.
  */
 - (void)loadNextAdForAdToken:(NSString *)adToken andNotify:(id<ALAdLoadDelegate>)delegate;
 
 /**
  * Fetch a new ad for any of the provided zone identifiers.
  *
- * <b>Please note:</b> this method is designed to be called by SDK mediation providers. Please use
- * <code>loadNextAdForZoneIdentifier:andNotify:</code> for regular integrations.
+ * @warning This method is designed to be called by SDK mediation providers. Use @code -[ALAdService loadNextAdForZoneIdentifiers:andNotify:] @endcode for
+ *          regular integrations.
  *
- * @param zoneIdentifiers  An array of zone identifiers for which an ad should be loaded. Must not be nil.
- * @param delegate         A callback to notify that the ad has been loaded. Must not be nil.
+ * @param zoneIdentifiers  An array of zone identifiers for which an ad should be loaded.
+ * @param delegate         A callback that @c loadNextAdForZoneIdentifiers calls to notify that the ad has been loaded.
  */
 - (void)loadNextAdForZoneIdentifiers:(NSArray<NSString *> *)zoneIdentifiers andNotify:(id<ALAdLoadDelegate>)delegate;
-
 
 - (instancetype)init __attribute__((unavailable("Access ALAdService through ALSdk's adService property.")));
 + (instancetype)new NS_UNAVAILABLE;

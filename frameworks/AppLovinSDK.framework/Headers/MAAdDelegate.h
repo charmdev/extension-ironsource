@@ -7,62 +7,84 @@
 //
 
 #import "MAAd.h"
+#import "MAError.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This protocol defines a listener intended to be notified about ad events.
+ * This protocol defines a listener to be notified about ad events.
  */
 @protocol MAAdDelegate<NSObject>
 
 /**
- * This method is called when a new ad has been loaded.
+ * The SDK invokes this method when a new ad has been loaded.
+ *
+ * @param ad  The ad that was loaded.
  */
 - (void)didLoadAd:(MAAd *)ad;
 
 /**
- * This method is called when an ad could not be retrieved.
+ * The SDK invokes this method when an ad could not be retrieved.
  *
- * Common error codes:
- * 204 - no ad is available
- * 5xx - internal server error
- * negative number - internal errors
+ * <b>Common error codes:</b><table>
+ * <tr><td>204</td><td>no ad is available</td></tr>
+ * <tr><td>5xx</td><td>internal server error</td></tr>
+ * <tr><td>negative number</td><td>internal errors</td></tr></table>
  *
- * @param adUnitIdentifier  Ad unit identifier for which the ad was requested.
- * @param errorCode         An error code representing the failure reason. Common error codes are defined in `MAErrorCode.h`.
+ * @param adUnitIdentifier  The ad unit ID that the SDK failed to load an ad for.
+ * @param error                          An object that encapsulates the failure info.
  */
-- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode;
+- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withError:(MAError *)error;
 
 /**
- * This method is invoked when an ad is displayed.
+ * The SDK invokes this method when a full-screen ad is displayed.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
+ *
+ * @warning This method is deprecated for MRECs. It will only be called for full-screen ads.
+ *
+ * @param ad  The ad that was displayed.
  */
 - (void)didDisplayAd:(MAAd *)ad;
 
 /**
- * This method is invoked when an ad is hidden.
+ * The SDK invokes this method when a full-screen ad is hidden.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
+ *
+ * @warning This method is deprecated for MRECs. It will only be called for full-screen ads.
+ *
+ * @param ad  The ad that was hidden.
  */
 - (void)didHideAd:(MAAd *)ad;
 
 /**
- * This method is invoked when the ad is clicked.
+ * The SDK invokes this method when the ad is clicked.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
+ *
+ * @param ad  The ad that was clicked.
  */
 - (void)didClickAd:(MAAd *)ad;
 
 /**
- * This method is invoked when the ad failed to displayed.
+ * The SDK invokes this method when the ad failed to display.
  *
- * This method is invoked on the main UI thread.
+ * The SDK invokes this method on the main UI thread.
  *
- * @param ad        Ad that was just failed to display.
- * @param errorCode Error that indicates display failure. Common error codes are defined in `MAErrorCode.h`.
+ * @param ad       The ad that the SDK failed to display for.
+ * @param error An object that encapsulates the failure info.
  */
-- (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode;
+- (void)didFailToDisplayAd:(MAAd *)ad withError:(MAError *)error;
+
+@optional
+
+- (void)didPayRevenueForAd:(MAAd *)ad
+__deprecated_msg("This callback has been deprecated and will be removed in a future SDK version. Please use -[MAAdRevenueDelegate didPayRevenueForAd:] instead.");
+- (void)didFailToLoadAdForAdUnitIdentifier:(NSString *)adUnitIdentifier withErrorCode:(NSInteger)errorCode
+__deprecated_msg("This callback has been deprecated and will be removed in a future SDK version. Please use -[MAAdDelegate didFailToLoadAdForAdUnitIdentifier:withError:] instead.");
+- (void)didFailToDisplayAd:(MAAd *)ad withErrorCode:(NSInteger)errorCode
+__deprecated_msg("This callback has been deprecated and will be removed in a future SDK version. Please use -[MAAdDelegate didFailToDisplayAd:withError:] instead.");
 
 @end
 

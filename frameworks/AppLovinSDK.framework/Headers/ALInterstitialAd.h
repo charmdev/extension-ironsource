@@ -9,53 +9,55 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This class is used to display full-screen ads to the user.
+ * This class displays full-screen ads to the user.
  */
 @interface ALInterstitialAd : NSObject
 
 #pragma mark - Ad Delegates
 
 /**
- * An object conforming to the ALAdLoadDelegate protocol, which, if set, will be notified of ad load events.
+ * An object that conforms to the @c ALAdLoadDelegate protocol. If you provide a value for @c adLoadDelegate in your instance, the SDK will notify
+ * this delegate of ad load events.
  */
 @property (nonatomic, strong, nullable) id<ALAdLoadDelegate> adLoadDelegate;
 
 /**
- * An object conforming to the ALAdDisplayDelegate protocol, which, if set, will be notified of ad show/hide events.
+ * An object that conforms to the @c ALAdDisplayDelegate protocol. If you provide a value for @c adDisplayDelegate in your instance, the SDK will
+ * notify this delegate of ad show/hide events.
  */
 @property (nonatomic, strong, nullable) id<ALAdDisplayDelegate> adDisplayDelegate;
 
 /**
- * An object conforming to the ALAdVideoPlaybackDelegate protocol, which, if set, will be notified of video start/finish events.
+ * An object that conforms to the @c ALAdVideoPlaybackDelegate protocol. If you provide a value for @c adVideoPlaybackDelegate in your instance,
+ * the SDK will notify this delegate of video start/finish events.
  */
 @property (nonatomic, strong, nullable) id<ALAdVideoPlaybackDelegate> adVideoPlaybackDelegate;
 
 #pragma mark - Loading and Showing Ads, Class Methods
 
 /**
- * Show an interstitial over the application's key window.
- * This will load the next interstitial and display it.
+ * Shows an interstitial over the application’s key window. This loads the next interstitial and displays it.
  */
 + (instancetype)show;
 
 /**
- * Get a reference to the shared singleton instance.
+ * Gets a reference to the shared singleton instance.
  *
- * This method calls [ALSdk shared] which requires you to have an SDK key defined in <code>Info.plist</code>.
- * If you use <code>[ALSdk sharedWithKey: ...]</code> then you will need to use the instance methods instead.
+ * This method calls @code +[ALSdk shared] @endcode which requires that you have an SDK key defined in @code Info.plist @endcode.
+ *
+ * @warning If you use @code +[ALSdk sharedWithKey:] @endcode then you will need to use the instance methods instead.
  */
 + (instancetype)shared;
 
 #pragma mark - Loading and Showing Ads, Instance Methods
 
 /**
- * Show an interstitial over the application's key window.
- * This will load the next interstitial and display it.
+ * Shows an interstitial over the application’s key window. This loads the next interstitial and displays it.
  */
 - (void)show;
 
 /**
- * Show current interstitial over a given window and render a specified ad loaded by ALAdService.
+ * Shows the current interstitial over a given window and renders a specified ad loaded by @c ALAdService.
  *
  * @param ad The ad to render into this interstitial.
  */
@@ -64,11 +66,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Initialization
 
 /**
- * Initialize an instance of this class with a SDK instance.
+ * Initializes an instance of this class with an SDK instance.
  *
  * @param sdk The AppLovin SDK instance to use.
  */
 - (instancetype)initWithSdk:(ALSdk *)sdk;
+
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 

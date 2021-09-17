@@ -11,71 +11,74 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Service used for tracking various analytical events.
+ * Service that tracks various analytical events.
  */
 @interface ALEventService : NSObject
 
 /**
- * Set a super property to be recorded with all future events.
+ * Sets a super property that this service will record with all future events.
  *
- * If the property is set to nil, will remove that super property from being recorded with all future events.
+ * If @c superProperty is @c nil, this method will remove the super property with key @c key from being recorded with all future events.
  *
- * @param superProperty The super property value for the given super property key.
- *                      Valid types include `NSString`, `NSNumber`, `NSSDate`, `NSURL`, `NSArray`, `NSDictionary`.
- *                      Setting it to nil will remove that super property from being recorded with all future events.
- * @param key           The super property key for the given super property.
+ * @param superProperty The value to assign to the super property whose key is @c key. Valid types include @c NSString, @c NSNumber, @c NSSDate, @c NSURL,
+ *                      @c NSArray, and @c NSDictionary. Set this to @c nil to remove the super property whose key is @c key from being recorded with all future
+ *                      events.
+ * @param key           The key that identifies the the super property whose value this method sets.
  */
 - (void)setSuperProperty:(nullable id)superProperty forKey:(NSString *)key;
 
 /**
- * NSDictionary representing the currently set super properties that are passed up on events.
+ * NSDictionary that represents the currently-set super properties that this services records with events.
  */
 @property (nonatomic, copy, readonly) NSDictionary<NSString *, id> *superProperties;
 
 /**
- * Track an event without additional data.
+ * Tracks an event without adding supplemental data.
  *
- * Where applicable, it is suggested to use one of the predefined strings provided in ALEventTypes.h for the event and parameter key.
+ * AppLovin recommends that you use one of the predefined strings provided in ALEventTypes.h for the event name, when those strings apply to the event.
  *
- * @param eventName A string representing the event to track.
+ * @param eventName A string that represents the event to track.
  */
 - (void)trackEvent:(NSString *)eventName;
 
 /**
- * Track an event with additional data.
+ * Tracks an event and adds supplemental data.
  *
- * Where applicable, it is suggested to use one of the predefined strings provided in ALEventTypes.h for the event and parameter key.
+ * AppLovin recommends that you use one of the predefined strings provided in ALEventTypes.h for the event name and parameter keys, when those strings
+ * apply to the event.
  *
- * @param eventName  A string representing the event to track.
- * @param parameters A dictionary containing key-value pairs further describing this event.
+ * @param eventName  A string that represents the event to track.
+ * @param parameters A dictionary that contains key-value pairs that further describe this event.
  */
 - (void)trackEvent:(NSString *)eventName parameters:(nullable NSDictionary<NSString *, id> *)parameters;
 
 /**
- * Track an in app purchase.
+ * Tracks an in-app purchase.
  *
- * Where applicable, it is suggested to use the pre-defined parameter keys provided in ALEventTypes.h. At a minimum, you should provide the following parameters: kALEventParameterProductIdentifierKey,
- * kALEventParameterRevenueAmountKey, and kALEventParameterRevenueCurrencyKey. If you pass a value for kALEventParameterStoreKitReceiptKey, it will be used for validation. Otherwise, we will automatically collect
- * [[NSBundle mainBundle] appStoreReceiptURL] and use it for validation.
+ * AppLovin recommends that you use one of the predefined strings provided in ALEventTypes.h for the parameter keys, when one of those strings applies
+ * to the event. At a minimum, provide the following parameters: @c kALEventParameterProductIdentifierKey, @c kALEventParameterRevenueAmountKey, and
+ * @c kALEventParameterRevenueCurrencyKey. If you pass a value for @c kALEventParameterStoreKitReceiptKey, AppLovin will use that value for validation.
+ * Otherwise, AppLovin will collect @code [NSBundle mainBundle] @endcode ⇒ @code [NSBundle appStoreReceiptURL] @endcode and use it for validation.
  *
- * @param transactionIdentifier Value of -[SKTransaction transactionIdentifier] property.
- * @param parameters            A dictionary containing key-value pairs further describing this event.
+ * @param transactionIdentifier Value of the @code [SKTransaction transactionIdentifier] @endcode property.
+ * @param parameters            A dictionary that contains key-value pairs that further describe this event.
  */
 - (void)trackInAppPurchaseWithTransactionIdentifier:(NSString *)transactionIdentifier parameters:(nullable NSDictionary<NSString *, id> *)parameters;
 
 /**
- * Track a checkout / standard purchase.
+ * Tracks a checkout / standard purchase.
  *
- * Where applicable, it is suggested to use the pre-defined parameter keys provided in ALEventTypes.h. At a minimum, you should provide the following parameters: kALEventParameterProductIdentifierKey,
- * kALEventParameterRevenueAmountKey, and kALEventParameterRevenueCurrencyKey.
+ * AppLovin recommends that you use one of the predefined strings provided in ALEventTypes.h for the parameter keys, when one of those strings applies to the
+ * event. At a minimum, provide the following parameters: @c kALEventParameterProductIdentifierKey, @c kALEventParameterRevenueAmountKey, and
+ * @c kALEventParameterRevenueCurrencyKey.
  *
- * @param transactionIdentifier An optional unique identifier for this transaction, as generated by you. For Apple Pay transactions, we suggest -[PKPaymentToken transactionIdentifier] property.
- * @param parameters            A dictionary containing key-value pairs further describing this event.
+ * @param transactionIdentifier An optional unique identifier for this transaction, generated by you. For Apple Pay transactions, AppLovin suggests that you use
+ *                              the value of the @code [PKPaymentToken transactionIdentifier] @endcode property.
+ * @param parameters            A dictionary that contains key-value pairs that further describe this event.
  */
 - (void)trackCheckoutWithTransactionIdentifier:(nullable NSString *)transactionIdentifier parameters:(nullable NSDictionary<NSString *, id> *)parameters;
 
-
-- (instancetype)init __attribute__((unavailable("Access ALEventService through ALSdk's eventService property.")));
+- (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
 @end

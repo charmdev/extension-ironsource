@@ -11,49 +11,49 @@ NS_ASSUME_NONNULL_BEGIN
 @class ALVariableService;
 
 /**
- * This service allows for retrieval of variables pre-defined on AppLovin's dashboard.
+ * Use this service to retrieve values of variables that were pre-defined on AppLovin’s dashboard.
  */
 @interface ALVariableService : NSObject
 
 /**
- * Returns the variable value associated with the given key, or false if
- * no mapping of the desired type exists for the given key.
+ * Returns the boolean value of the variable named by the given key.
+ * Returns @c false if you did not define a boolean mapping for the given key.
  *
- * @param key The variable name to retrieve the value for.
+ * @param key The name of the variable for which you want to retrieve the value.
  *
- * @return The variable value to be used for the given key, or nil if no value was found.
+ * @return The boolean value of the variable named by the value of @c key, @c false if that value is non-boolean, or @c nil if no such value was found.
  */
 - (BOOL)boolForKey:(NSString *)key;
 
 /**
- * Returns the variable value associated with the given key, or the specified default value if
- * no mapping of the desired type exists for the given key.
+ * Returns the boolean value of the variable named by the given key, or a specified default value.
+ * Returns the specified default value if you did not define a boolean mapping for the given key.
  *
- * @param key          The variable name to retrieve the value for.
- * @param defaultValue The value to be returned if the variable name does not exist.
+ * @param key          The name of the variable for which you want to retrieve the value.
+ * @param defaultValue The value to return if the variable named @c key does not exist.
  *
- * @return The variable value to be used for the given key, or the default value if no value was found.
+ * @return The value of the variable named by the value of @c key, or the value of @c defaultValue if no such variable was found.
  */
 - (BOOL)boolForKey:(NSString *)key defaultValue:(BOOL)defaultValue;
 
 /**
- * Returns the variable value associated with the given key, or nil if
- * no mapping of the desired type exists for the given key.
+ * Returns the string value of the variable named by the given key.
+ * Returns @c nil if no mapping of the desired type exists for the given key.
  *
- * @param key The variable name to retrieve the value for.
+ * @param key The name of the variable for which you want to retrieve the value.
  *
- * @return The variable value to be used for the given key, or nil if no value was found.
+ * @return The value of the variable named by the value of @c key, or @c nil if no value was found.
  */
 - (nullable NSString *)stringForKey:(NSString *)key;
 
 /**
- * Returns the variable value associated with the given key, or the specified default value if
- * no mapping of the desired type exists for the given key.
+ * Returns the string value of the variable named by the given key, or a specified default value.
+ * Returns the specified default value if no mapping of the desired type exists for the given key.
  *
- * @param key          The variable name to retrieve the value for.
- * @param defaultValue The value to be returned if the variable name does not exist.
+ * @param key          The name of the variable for which you want to retrieve the value.
+ * @param defaultValue The value to return if the variable named @c key does not exist.
  *
- * @return The variable value to be used for the given key, or the default value if no value was found.
+ * @return The value of the variable named by the value of @c key, or the value of @c defaultValue if no such variable was found.
  */
 - (nullable NSString *)stringForKey:(NSString *)key defaultValue:(nullable NSString *)defaultValue;
 

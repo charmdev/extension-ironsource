@@ -25,11 +25,11 @@ dependencies {
 	implementation "com.vungle:publisher-sdk-android:${rootProject.ext.vungleSdk}"
 	implementation "com.adcolony:sdk:${rootProject.ext.adcolonySdk}"
 
-	implementation "com.ironsource.adapters:adcolonyadapter:4.3.7"
-	implementation "com.ironsource.adapters:admobadapter:4.3.16"
-	implementation "com.ironsource.adapters:applovinadapter:4.3.22"
-	implementation "com.ironsource.adapters:facebookadapter:4.3.24"
-	implementation "com.ironsource.adapters:unityadsadapter:4.3.10"
-	implementation "com.ironsource.adapters:vungleadapter:4.3.8"
+	implementation "com.ironsource.adapters:adcolonyadapter:4.3.9"
+	implementation "com.ironsource.adapters:admobadapter:4.3.22"
+	implementation "com.ironsource.adapters:applovinadapter:4.3.28"
+	implementation "com.ironsource.adapters:facebookadapter:4.3.30"
+	implementation "com.ironsource.adapters:unityadsadapter:4.3.14"
+	implementation "com.ironsource.adapters:vungleadapter:4.3.11"
 
 }

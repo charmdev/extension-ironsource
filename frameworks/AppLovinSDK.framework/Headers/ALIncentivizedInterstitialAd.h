@@ -14,80 +14,95 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  This class is used to show rewarded videos to the user. These differ from regular interstitials in that they allow you to provide you user virtual currency in exchange for watching a video.
+ * This class shows rewarded videos to the user. These differ from regular interstitials in that they allow you to provide your user virtual currency in
+ * exchange for watching a video.
  */
 @interface ALIncentivizedInterstitialAd : NSObject
 
 #pragma mark - Ad Delegates
 
 /**
- *  An object conforming to the ALAdDisplayDelegate protocol, which, if set, will be notified of ad show/hide events.
+ * An object that conforms to the @c ALAdDisplayDelegate protocol. If you provide a value for @c adDisplayDelegate in your instance, the SDK will
+ * notify this delegate of ad show/hide events.
  */
 @property (strong, nonatomic, nullable) id<ALAdDisplayDelegate> adDisplayDelegate;
 
 /**
- *  An object conforming to the ALAdVideoPlaybackDelegate protocol, which, if set, will be notified of video start/stop events.
+ * An object that conforms to the @c ALAdVideoPlaybackDelegate protocol. If you provide a value for @c adVideoPlaybackDelegate in your instance,
+ * the SDK will notify this delegate of video start/stop events.
  */
 @property (strong, nonatomic, nullable) id<ALAdVideoPlaybackDelegate> adVideoPlaybackDelegate;
 
 #pragma mark - Integration, Class Methods
 
 /**
- * Get a reference to the shared instance of ALIncentivizedInterstitialAd.
+ * Gets a reference to the shared instance of @c [ALIncentivizedInterstitialAd].
  *
- * This wraps the [ALSdk shared] call, and will only work if you hve set your SDK key in Info.plist.
+ * This wraps the @code +[ALSdk shared] @endcode call, and will only work if you have set your SDK key in @code Info.plist @endcode.
 */
 + (ALIncentivizedInterstitialAd *)shared;
 
 /**
- * Pre-load an incentivized interstitial, and notify your provided Ad Load Delegate.
+ * Pre-loads an incentivized interstitial, and notifies your provided Ad Load Delegate.
  *
- * Invoke once to preload, then do not invoke again until the ad has has been closed (e.g., ALAdDisplayDelegate's adWasHidden callback).
- * You may pass a nil argument to preloadAndNotify if you intend to use the synchronous ( isIncentivizedAdReady ) flow. Note that this is NOT recommended; we HIGHLY RECOMMEND you use an ad load delegate.
- * This method uses the shared instance, and will only work if you have set your SDK key in Info.plist.
- * Note that we internally try to pull down the next ad's resources before you need it. Therefore, this method may complete immediately in many circumstances.
+ * Invoke this once to pre-load, then do not invoke it again until the ad has has been closed (e.g., in the
+ * @code -[ALAdDisplayDelegate ad:wasHiddenIn:] @endcode callback).
  *
- * @param adLoadDelegate The delegate to notify that preloading was completed. May be nil.
+ * @warning You may pass a @c nil argument to @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode if you intend to use the synchronous
+ *          (@code +[ALIncentivizedIntrstitialAd isReadyForDisplay] @endcode) flow. This is <em>not</em> recommended; AppLovin <em>highly recommends</em> that
+ *          you use an ad load delegate.
+ *
+ * This method uses the shared instance, and will only work if you have set your SDK key in @code Info.plist @endcode.
+ *
+ * Note that AppLovin tries to pull down the next ad’s resources before you need it. Therefore, this method may complete immediately in many circumstances.
+ *
+ * @param adLoadDelegate The delegate to notify that preloading was completed. May be @c nil (see warning).
  */
 + (void)preloadAndNotify:(nullable id<ALAdLoadDelegate>)adLoadDelegate;
 
 /**
- * Check if an ad is currently ready on this object. You must call preloadAndNotify in order to reach this state.
+ * Whether or not an ad is currently ready on this object. You must first have called @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode in order
+ * for this value to be meaningful.
  *
- * It is highly recommended that you implement an asynchronous flow (using an ALAdLoadDelegate with preloadAndNotify) rather than checking this property. This class does not contain a queue and can hold only one preloaded ad at a time. Therefore, you should NOT simply call preloadAndNotify: any time this method returns NO; it is important to invoke only one ad load - then not invoke any further loads until the ad has been closed (e.g., ALAdDisplayDelegate's adWasHidden callback).
+ * @warning It is highly recommended that you implement an asynchronous flow (using an @c ALAdLoadDelegate with
+ *          @code -[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode) rather than checking this property. This class does not contain a queue and can
+ *          hold only one preloaded ad at a time. Therefore, you should <em>not</em> simply call
+ *          @code -[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode) any time this method returns @c NO; it is important to invoke only one ad load —
+ *          then not invoke any further loads until the ad has been closed (e.g., in the @code -[ALAdDisplayDelegate ad:wasHiddenIn:] @endcode callback).
  *
- * @return YES if an ad has been loaded into this incentivized interstitial and is ready to display. NO otherwise.
+ * @return @c YES if an ad has been loaded into this incentivized interstitial and is ready to display. @c NO otherwise.
  */
 + (BOOL)isReadyForDisplay;
 
 /**
- * Show an incentivized interstitial over the current key window, using the most recently pre-loaded ad.
+ * Shows an incentivized interstitial over the current key window, by using the most recently pre-loaded ad.
  *
- * You must call preloadAndNotify before calling showOver.
+ * You must have called @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode before you call @code +[ALIncentivizedInterstitialAd show] @endcode.
  */
 + (void)show;
 
 /**
- * Show an incentivized interstitial over the current key window, using the most recently pre-loaded ad.
+ * Shows an incentivized interstitial over the current key window, by using the most recently pre-loaded ad.
  *
- * You must call preloadAndNotify before calling showOver.
+ * You must have called @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode before you call @c showAndNotify.
  *
- * Using the ALAdRewardDelegate, you will be able to verify with AppLovin servers the the video view is legitimate,
- * as we will confirm whether the specific ad was actually served - then we will ping your server with a url for you to update
- * the user's balance. The Reward Validation Delegate will tell you whether we were able to reach our servers or not. If you receive
- * a successful response, you should refresh the user's balance from your server. For more info, see the documentation.
+ * By using the @c ALAdRewardDelegate, you can verify with AppLovin servers that the video view is legitimate, as AppLovin will confirm whether
+ * the specific ad was actually served. Then AppLovin will ping your server with a URL at which you can update the user’s balance. The Reward Validation
+ * Delegate will tell you whether this service was able to reach AppLovin servers or not. If you receive a successful response, you should refresh the user’s
+ * balance from your server. For more info, see the documentation.
  *
  * @param adRewardDelegate The reward delegate to notify upon validating reward authenticity with AppLovin.
  *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/s2s-rewarded-callback-api">MAX Integration Guide ⇒ MAX S2S Rewarded Callback API</a>
  */
 + (void)showAndNotify:(nullable id<ALAdRewardDelegate>)adRewardDelegate;
 
 #pragma mark - Integration, Instance Methods
 
 /**
- * Initialize an incentivized interstitial with a specific custom SDK.
+ * Initializes an incentivized interstitial with a specific custom SDK.
  *
- * This is necessary if you use <code>[ALSdk sharedWithKey: ...]</code>.
+ * This is necessary if you use @code +[ALSdk sharedWithKey:] @endcode.
  *
  * @param sdk An SDK instance to use.
  */
@@ -96,18 +111,18 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Integration, zones
 
 /**
- * Initialize an incentivized interstitial with a zone.
+ * Initializes an incentivized interstitial with a zone.
  *
- * @param zoneIdentifier The identifier of the zone for which to load ads for.
+ * @param zoneIdentifier The identifier of the zone for which to load ads.
  */
 - (instancetype)initWithZoneIdentifier:(NSString *)zoneIdentifier;
 
 /**
- * Initialize an incentivized interstitial with a zone and a specific custom SDK.
+ * Initializes an incentivized interstitial with a zone and a specific custom SDK.
  *
- * This is necessary if you use <code>[ALSdk sharedWithKey: ...]</code>.
+ * This is necessary if you use @code +[ALSdk sharedWithKey:] @endcode.
  *
- * @param zoneIdentifier The identifier of the zone for which to load ads for.
+ * @param zoneIdentifier The identifier of the zone for which to load ads.
  * @param sdk            An SDK instance to use.
  */
 - (instancetype)initWithZoneIdentifier:(NSString *)zoneIdentifier sdk:(ALSdk *)sdk;
@@ -118,62 +133,74 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly, nullable) NSString *zoneIdentifier;
 
 /**
- * Pre-load an incentivized interstitial, and notify your provided Ad Load Delegate.
+ * Pre-loads an incentivized interstitial, and notifies your provided Ad Load Delegate.
  *
- * Invoke once to preload, then do not invoke again until the ad has has been closed (e.g., ALAdDisplayDelegate's adWasHidden callback).
- * You may pass a nil argument to preloadAndNotify if you intend to use the synchronous ( isIncentivizedAdReady ) flow. Note that this is NOT recommended; we HIGHLY RECOMMEND you use an ad load delegate.
- * Note that we internally try to pull down the next ad's resources before you need it. Therefore, this method may complete immediately in many circumstances.
+ * Invoke this once to pre-load, then do not invoke it again until the ad has has been closed (e.g., in the
+ * @code -[ALAdDisplayDelegate ad:wasHiddenIn:] @endcode callback).
  *
- * @param adLoadDelegate The delegate to notify that preloading was completed.
+ * @warning You may pass a @c nil argument to @c preloadAndNotify if you intend to use the synchronous
+ *          (@code +[ALIncentivizedIntrstitialAd isReadyForDisplay] @endcode) flow. This is <em>not</em> recommended; AppLovin <em>highly recommends</em> that
+ *          you use an ad load delegate.
+ *
+ * Note that AppLovin tries to pull down the next ad’s resources before you need it. Therefore, this method may complete immediately in many circumstances.
+ *
+ * @param adLoadDelegate The delegate to notify that preloading was completed. May be @c nil (see warning).
  */
 - (void)preloadAndNotify:(nullable id<ALAdLoadDelegate>)adLoadDelegate;
 
 /**
- * Check if an ad is currently ready on this object. You must call preloadAndNotify in order to reach this state.
+ * Whether or not an ad is currently ready on this object. You must first have called @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode in order
+ * for this value to be meaningful.
  *
- * It is highly recommended that you implement an asynchronous flow (using an ALAdLoadDelegate with preloadAndNotify) rather than checking this property. This class does not contain a queue and can hold only one preloaded ad at a time. Therefore, you should NOT simply call preloadAndNotify: any time this method returns NO; it is important to invoke only one ad load - then not invoke any further loads until the ad has been closed (e.g., ALAdDisplayDelegate's adWasHidden callback).
+ * @warning It is highly recommended that you implement an asynchronous flow (using an @c ALAdLoadDelegate with
+ *          @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode rather than checking this property. This class does not contain a queue and can
+ *          hold only one preloaded ad at a time. Therefore, you should <em>not</em> simply call
+ *          @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode any time this method returns @c NO; it is important to invoke only one ad load —
+ *          then not invoke any further loads until the ad has been closed (e.g., in the @code -[ALAdDisplayDelegate ad:wasHiddenIn:] @endcode callback).
  *
- * @return YES if an ad has been loaded into this incentivized interstitial and is ready to display. NO otherwise.
+ * @return @c YES if an ad has been loaded into this incentivized interstitial and is ready to display. @c NO otherwise.
  */
 @property (readonly, atomic, getter=isReadyForDisplay) BOOL readyForDisplay;
 
 /**
- * Show an incentivized interstitial over the current key window, using the most recently pre-loaded ad.
+ * Shows an incentivized interstitial over the current key window, by using the most recently pre-loaded ad.
  *
- * You must call preloadAndNotify before calling showOver.
+ * You must have called @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode before you call @c show.
  */
 - (void)show;
 
 /**
- * Show an incentivized interstitial over the current key window, using the most recently pre-loaded ad.
+ * Shows an incentivized interstitial over the current key window, by using the most recently pre-loaded ad.
  *
- * You must call preloadAndNotify before calling showOver.
+ * You must have called @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode before you call @c showAndNotify.
  *
- * Using the ALAdRewardDelegate, you will be able to verify with AppLovin servers the the video view is legitimate,
- * as we will confirm whether the specific ad was actually served - then we will ping your server with a url for you to update
- * the user's balance. The Reward Validation Delegate will tell you whether we were able to reach our servers or not. If you receive
- * a successful response, you should refresh the user's balance from your server. For more info, see the documentation.
+ * By using the @c ALAdRewardDelegate, you can verify with AppLovin servers that the video view is legitimate, as AppLovin will confirm whether
+ * the specific ad was actually served. Then AppLovin will ping your server with a URL at which you can update the user’s balance. The Reward Validation
+ * Delegate will tell you whether this service was able to reach AppLovin servers or not. If you receive a successful response, you should refresh the user’s
+ * balance from your server. For more info, see the documentation.
  *
  * @param adRewardDelegate The reward delegate to notify upon validating reward authenticity with AppLovin.
  *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/s2s-rewarded-callback-api">MAX Integration Guide ⇒ MAX S2S Rewarded Callback API</a>
  */
 - (void)showAndNotify:(nullable id<ALAdRewardDelegate>)adRewardDelegate;
 
 /**
- * Show an incentivized interstitial, using the most recently pre-loaded ad.
+ * Shows an incentivized interstitial, by using the most recently pre-loaded ad.
  *
- * You must call preloadAndNotify before calling showOver.
+ * You must have called @code +[ALIncentivizedInterstitialAd preloadAndNotify:] @endcode before you call @c showAd.
  *
- * Using the ALAdRewardDelegate, you will be able to verify with AppLovin servers that the video view is legitimate,
- * as we will confirm whether the specific ad was actually served - then we will ping your server with a url for you to update
- * the user's balance. The Reward Validation Delegate will tell you whether we were able to reach our servers or not. If you receive
- * a successful response, you should refresh the user's balance from your server. For more info, see the documentation.
+ * By using the @c ALAdRewardDelegate, you can verify with AppLovin servers that the video view is legitimate, as AppLovin will confirm whether
+ * the specific ad was actually served. Then AppLovin will ping your server with a URL at which you can update the user’s balance. The Reward Validation
+ * Delegate will tell you whether this service was able to reach AppLovin servers or not. If you receive a successful response, you should refresh the user’s
+ * balance from your server. For more info, see the documentation.
  *
  * @param ad               The ad to render into this incentivized ad.
  * @param adRewardDelegate The reward delegate to notify upon validating reward authenticity with AppLovin.
+ *
+ * @see <a href="https://dash.applovin.com/documentation/mediation/s2s-rewarded-callback-api">MAX Integration Guide ⇒ MAX S2S Rewarded Callback API</a>
  */
 - (void)showAd:(ALAd *)ad andNotify:(nullable id<ALAdRewardDelegate>)adRewardDelegate;
-
 
 - (instancetype)init __attribute__((unavailable("Use initWithSdk:, initWithZoneIdentifier:, or [ALIncentivizedInterstitialAd shared] instead.")));
 + (instancetype)new NS_UNAVAILABLE;

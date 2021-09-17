@@ -10,12 +10,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * User segments allow us to serve ads using custom-defined rules based on which segment the user is in. For now, we only support a custom string 32 alphanumeric characters or less as the user segment.
+ * User segments allow AppLovin to serve ads by using custom-defined rules that are based on which segment the user is in. User segments are custom strings of
+ * 32 alphanumeric characters or less.
  */
 @interface ALUserSegment : NSObject
 
 /**
- * Custom segment name with 32 alphanumeric characters or less defined in your AppLovin dashboard.
+ * A custom user segment name with 32 alphanumeric characters or less, as defined in your AppLovin dashboard.
  */
 @property (nonatomic, copy, nullable) NSString *name;
 

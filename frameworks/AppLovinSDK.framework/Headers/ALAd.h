@@ -11,22 +11,22 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This class represents an ad that has been served from the AppLovin server.
+ * Represents an ad that has been served from the AppLovin server.
  */
 @interface ALAd : NSObject<NSCopying>
 
 /**
- * The size of this ad.
+ * The size category of this ad.
  */
 @property (nonatomic, strong, readonly) ALAdSize *size;
 
 /**
- * The type of this ad.
+ * The type of this ad (regular or incentivized/rewarded).
  */
 @property (nonatomic, strong, readonly) ALAdType *type;
 
 /**
- * The zone id for the ad, if any.
+ * The zone ID for the ad, if any.
  */
 @property (nonatomic, copy, readonly, nullable) NSString *zoneIdentifier;
 
@@ -36,14 +36,28 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly, getter=isVideoAd) BOOL videoAd;
 
 /**
- * Get an arbitrary ad value for a given key. The list of keys may be found in AppLovin documentation online.
+ * Gets the ad value for a given key.
+ *
+ * @param key The key for which you want to retrieve the ad value.
+ *
+ * @return The arbitrary ad value corresponding to @c key, or @c nil if no such value exists for @c key.
  */
 - (nullable NSString *)adValueForKey:(NSString *)key;
 
 /**
- * A unique ID which identifies this advertisement.
+ * Gets the ad value for a given key, or a default value if no such value exists.
  *
- * Should you need to report a broken ad to AppLovin support, please include this number's longValue.
+ * @param key          The key for which you want to retrieve the ad value.
+ * @param defaultValue The default value to return if the value of @c key does not exist or is @c nil.
+ *
+ * @return The arbitrary ad value corresponding to @c key, or the value of @c defaultValue if no such value exists for @c key.
+ */
+- (nullable NSString *)adValueForKey:(NSString *)key defaultValue:(nullable NSString *)defaultValue;
+
+/**
+ * A unique ID that identifies this advertisement.
+ *
+ * If you need to report a broken ad to AppLovin support, please include this number’s @c longValue.
  */
 @property (nonatomic, strong, readonly) NSNumber *adIdNumber;
 
@@ -51,11 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-@end
-
-@interface ALAd (ALDeprecated)
-@property (strong, readonly, getter=size, nullable) ALAdSize *adSize __deprecated_msg("Use size property instead.");
-@property (strong, readonly, getter=type, nullable) ALAdType *adType __deprecated_msg("Use type property instead.");
 @end
 
 NS_ASSUME_NONNULL_END

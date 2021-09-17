@@ -46,6 +46,12 @@
  */
 - (void)bannerWillLeaveApplication;
 
+/**
+ Called when a banner was shown
+ */
+- (void)bannerDidShow DEPRECATED_MSG_ATTRIBUTE("This callback has been deprecated and won’t be included in ironSource SDK versions 7.2.0 and above.");;
+
+
 @end
 
 #endif /* ISBannerDelegate_h */

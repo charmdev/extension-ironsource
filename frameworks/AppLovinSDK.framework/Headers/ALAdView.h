@@ -15,7 +15,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This class represents a view-based ad - i.e. banner, mrec or leader.
+ * This interface represents a view-based ad — i.e. banner, MREC, or leader.
  */
 @interface ALAdView : UIView
 
@@ -24,23 +24,26 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 /**
- *  An object conforming to the ALAdLoadDelegate protocol, which, if set, will be notified of ad load events.
+ * An object that conforms to the @c ALAdLoadDelegate protocol. If you provide a value for @c adLoadDelegate in your instance, the SDK will notify
+ * this delegate of ad load events.
  *
- *  Please note: This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this ALAdView.
+ * @warning This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this @c ALAdView.
  */
 @property (nonatomic, strong, nullable) IBOutlet id<ALAdLoadDelegate> adLoadDelegate;
 
 /**
- *  An object conforming to the ALAdDisplayDelegate protocol, which, if set, will be notified of ad show/hide events.
+ * An object that conforms to the @c ALAdDisplayDelegate protocol. If you provide a value for @c adDisplayDelegate in your instance, the SDK will
+ * notify this delegate of ad show/hide events.
  *
- *  Please note: This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this ALAdView.
+ * @warning This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this @c ALAdView.
  */
 @property (nonatomic, strong, nullable) IBOutlet id<ALAdDisplayDelegate> adDisplayDelegate;
 
 /**
- *  An object conforming to the ALAdViewEventDelegate protocol, which, if set, will be notified of ALAdView-specific events.
+ * An object that conforms to the @c ALAdViewEventDelegate protocol. If you provide a value for @c adEventDelegate in your instance, the SDK will
+ * notify this delegate of @c ALAdView -specific events.
  *
- *  Please note: This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this ALAdView.
+ * @warning This delegate is retained strongly and might lead to retain cycles if delegate holds strong reference to this @c ALAdView.
  */
 @property (nonatomic, strong, nullable) IBOutlet id<ALAdViewEventDelegate> adEventDelegate;
 
@@ -49,18 +52,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 /**
- *  The size of ads to be loaded within this ALAdView.
+ * The size of ads to load within this @c ALAdView.
  */
 @property (nonatomic, strong) ALAdSize *adSize;
 
 /**
- *  The zone identifier this ALAdView was initialized with and is loading ads for, if any.
+ * The zone identifier this @c ALAdView was initialized with and is loading ads for, if any.
  */
 @property (nonatomic, copy, readonly, nullable) NSString *zoneIdentifier;
 
 /**
- * Whether or not this ad view should automatically load an ad when inflated from StoryBoard or a nib file (when -[UIView awakeFromNib] is called).
- * The default value is YES. If you set it to NO, you are responsible for loading the ad by invoking `-[ALAdView loadNextAd]`.
+ * Whether or not this ad view should automatically load the ad when iOS inflates it from a StoryBoard or from a nib file (when
+ * @code -[UIView awakeFromNib] @endcode is called). The default value is @c NO which means you are responsible for loading the ad by invoking
+ * @code -[ALAdView loadNextAd] @endcode.
  */
 @property (nonatomic, assign, getter=isAutoloadEnabled, setter=setAutoloadEnabled:) BOOL autoload;
 
@@ -69,16 +73,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 /**
- * Loads AND displays an ad into the view. This method will return immediately.
+ * Loads <em>and</em> displays an ad into the view. This method returns immediately.
  *
- * Please note: To load ad but not display it, use `[[ALSdk shared].adService loadNextAd: ... andNotify: ...]` then `[adView renderAd: ...]` to render it.
+ * <b>Note:</b> To load the ad but not display it, use @code +[ALSdk shared] @endcode ⇒ @code [ALSDK adService] @endcode
+ *              ⇒ @code -[ALAdService loadNextAd:andNotify:] @endcode, then @code -[ALAdView render:] @endcode to render it.
  */
 - (void)loadNextAd;
 
 /**
- * Render a specific ad that was loaded via ALAdService.
+ * Renders a specific ad that was loaded via @c ALAdService.
  *
- * @param ad Ad to render. Must not be nil.
+ * @param ad Ad to render.
  */
 - (void)render:(ALAd *)ad;
 
@@ -87,64 +92,59 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 /**
- *  Initialize the ad view with a given size.
+ * Initializes the ad view with a given size.
  *
- *  @param size ALAdSize representing the size of this ad. For example, ALAdSize.banner.
+ * @param size @c ALAdSize that represents the size of this ad. For example, @code [ALAdSize banner] @endcode.
  *
- *  @return A new instance of ALAdView.
+ * @return A new instance of @c ALAdView.
  */
 - (instancetype)initWithSize:(ALAdSize *)size;
 
 /**
- *  Initialize the ad view for a given size and zone.
+ * Initializes the ad view for a given size and zone.
  *
- *  @param size           ALAdSize representing the size of this ad. For example, ALAdSize.banner.
- *  @param zoneIdentifier Identifier for the zone this ALAdView should load ads for.
+ * @param size           @c ALAdSize that represents the size of this ad. For example, @code [ALAdSize banner] @endcode.
+ * @param zoneIdentifier Identifier for the zone this @c ALAdView should load ads for.
  *
- *  @return A new instance of ALAdView.
+ * @return A new instance of @c ALAdView.
  */
 - (instancetype)initWithSize:(ALAdSize *)size zoneIdentifier:(nullable NSString *)zoneIdentifier;
 
 /**
- *  Initialize the ad view with a given sdk and size.
+ * Initializes the ad view with a given SDK and size.
  *
- *  @param sdk  Instance of ALSdk to use.
- *  @param size ALAdSize representing the size of this ad. For example, ALAdSize.banner.
+ * @param sdk  Instance of @c ALSdk to use.
+ * @param size @c ALAdSize that represents the size of this ad. For example, @code [ALAdSize banner] @endcode.
  *
- *  @return A new instance of ALAdView.
+ * @return A new instance of @c ALAdView.
  */
 - (instancetype)initWithSdk:(ALSdk *)sdk size:(ALAdSize *)size;
 
 /**
- *  Initialize the ad view with a given sdk, size, and zone.
+ * Initializes the ad view with a given SDK, size, and zone.
  *
- *  @param sdk            Instance of ALSdk to use.
- *  @param size           ALAdSize representing the size of this ad. For example, ALAdSize.banner.
- *  @param zoneIdentifier Identifier for the zone this ALAdView should load ads for.
+ * @param sdk            Instance of @c ALSdk to use.
+ * @param size           @c ALAdSize that represents the size of this ad. For example, @code [ALAdSize banner] @endcode.
+ * @param zoneIdentifier Identifier for the zone that this @c ALAdView should load ads for.
  *
- *  @return A new instance of ALAdView.
+ * @return A new instance of @c ALAdView.
  */
 - (instancetype)initWithSdk:(ALSdk *)sdk size:(ALAdSize *)size zoneIdentifier:(nullable NSString *)zoneIdentifier;
 
 /**
- * Initialize ad view with a given frame, ad size, and ALSdk instance.
+ * Initializes the ad view with a given frame, ad size, and SDK instance.
  *
- * @param frame  Frame to use.
- * @param size   Ad size to use.
- * @param sdk    Instance of ALSdk to use.
+ * @param frame  Describes the position and dimensions of the ad.
+ * @param size   @c ALAdSize that represents the size of this ad. For example, @code [ALAdSize banner] @endcode.
+ * @param sdk    Instance of @c ALSdk to use.
  *
- * @return A new instance of ALAdView.
+ * @return A new instance of @c ALAdView.
  */
 - (instancetype)initWithFrame:(CGRect)frame size:(ALAdSize *)size sdk:(ALSdk *)sdk;
-- (instancetype)init __attribute__((unavailable("Use one of the other provided initializers")));
+
+- (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-@end
-
-@interface ALAdView(ALDeprecated)
-@property (strong, atomic, nullable) UIViewController *parentController __deprecated_msg("This property is deprecated and will be removed in a future SDK version.");
-- (void)render:(ALAd *)ad overPlacement:(nullable NSString *)placement __deprecated_msg("Placements have been deprecated and will be removed in a future SDK version. Please configure zones from the UI and use them instead.");
-@property (readonly, atomic, getter=isReadyForDisplay) BOOL readyForDisplay __deprecated_msg("Checking whether an ad is ready for display has been deprecated and will be removed in a future SDK version. Please use `loadNextAd` or `renderAd:` to display an ad.");
 @end
 
 NS_ASSUME_NONNULL_END
