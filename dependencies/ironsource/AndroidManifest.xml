@@ -16,6 +16,10 @@
 		tools:replace="android:label,android:fullBackupContent"
 		>
 
+		<meta-data
+			android:name="com.google.android.gms.ads.APPLICATION_ID"
+			android:value="::ENV_ADMOB_APPID::"/>
+
 		<meta-data android:name="com.google.android.gms.version"
 			android:value="@integer/google_play_services_version" />
 		<activity android:name="com.google.android.gms.ads.AdActivity"
