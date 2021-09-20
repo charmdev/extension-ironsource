@@ -28,6 +28,11 @@
 		<dependency path="frameworks/ISFacebookAdapter.framework"/>
 		<dependency path="frameworks/ISAdMobAdapter.framework" />
 
+		<dependency path="frameworks/FBAudienceNetwork.framework" />
+		<dependency path="frameworks/GoogleMobileAds.framework" />
+		<dependency path="frameworks/UnityAds.framework" />
+		
+
 	</section>
 
 </project>
