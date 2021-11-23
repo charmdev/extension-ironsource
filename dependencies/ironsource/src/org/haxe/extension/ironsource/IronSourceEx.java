@@ -31,115 +31,121 @@ public class IronSourceEx extends Extension
 
 	public static void initIS(String appKey, String userId) {
 
-		IronSource.setRewardedVideoListener(new RewardedVideoListener() {
+		Extension.mainActivity.runOnUiThread(new Runnable() {
+			public void run() {
 
-			@Override
-			public void onRewardedVideoAdClosed() {
-				Log.d(TAG, "onRewardedVideoAdClosed " + giveReward + " " + rewardSended);
+				IronSource.setRewardedVideoListener(new RewardedVideoListener() {
 
-				if (giveReward && !rewardSended) {
-					if (Extension.mainView == null) return;
-					GLSurfaceView view = (GLSurfaceView) Extension.mainView;
-					view.queueEvent(new Runnable() {
-						public void run() {
-							_callback.call("onRewardedCompleted", new Object[] {});
-					}});
+					@Override
+					public void onRewardedVideoAdClosed() {
+						Log.d(TAG, "onRewardedVideoAdClosed " + giveReward + " " + rewardSended);
 
-					Log.d(TAG, "onRewardedVideoAdClosed! giveReward");
-				}
-				else if (!giveReward && !rewardSended) {
-					if (Extension.mainView == null) return;
-					GLSurfaceView view = (GLSurfaceView) Extension.mainView;
-					view.queueEvent(new Runnable() {
-						public void run() {
-							_callback.call("onVideoSkipped", new Object[] {});
-					}});
+						if (giveReward && !rewardSended) {
+							if (Extension.mainView == null) return;
+							GLSurfaceView view = (GLSurfaceView) Extension.mainView;
+							view.queueEvent(new Runnable() {
+								public void run() {
+									_callback.call("onRewardedCompleted", new Object[] {});
+							}});
 
-					Log.d(TAG, "onRewardedVideoAdClosed! !giveReward");
-				}
+							Log.d(TAG, "onRewardedVideoAdClosed! giveReward");
+						}
+						else if (!giveReward && !rewardSended) {
+							if (Extension.mainView == null) return;
+							GLSurfaceView view = (GLSurfaceView) Extension.mainView;
+							view.queueEvent(new Runnable() {
+								public void run() {
+									_callback.call("onVideoSkipped", new Object[] {});
+							}});
 
-				giveReward = false;
-				rewardSended = false;
-			}
-			
-			@Override
-			public void onRewardedVideoAvailabilityChanged(boolean available) {
-				Log.d(TAG, "onRewardedVideoAvailabilityChanged " + available);
+							Log.d(TAG, "onRewardedVideoAdClosed! !giveReward");
+						}
 
-				if (available)
-				{
-					giveReward = false;
-					rewardSended = false;
+						giveReward = false;
+						rewardSended = false;
+					}
+					
+					@Override
+					public void onRewardedVideoAvailabilityChanged(boolean available) {
+						Log.d(TAG, "onRewardedVideoAvailabilityChanged " + available);
 
-					if (Extension.mainView == null) return;
-					GLSurfaceView view = (GLSurfaceView) Extension.mainView;
-					view.queueEvent(new Runnable() {
-						public void run() {
-							_callback.call("onRewardedCanShow", new Object[] {});
-					}});
-				}
-			}
+						if (available)
+						{
+							giveReward = false;
+							rewardSended = false;
 
-			@Override
-			public void onRewardedVideoAdRewarded(Placement placement) {
-				Log.d(TAG, "onRewardedVideoAdRewarded" + " " + placement);
-				giveReward = true;
-				rewardSended = false;
-			}
-			
-			@Override
-			public void onRewardedVideoAdShowFailed(IronSourceError error) {
-				Log.d(TAG, "onRewardedVideoAdShowFailed " + error);
-				giveReward = false;
-				rewardSended = false;
+							if (Extension.mainView == null) return;
+							GLSurfaceView view = (GLSurfaceView) Extension.mainView;
+							view.queueEvent(new Runnable() {
+								public void run() {
+									_callback.call("onRewardedCanShow", new Object[] {});
+							}});
+						}
+					}
 
-				if (Extension.mainView == null) return;
-					GLSurfaceView view = (GLSurfaceView) Extension.mainView;
-					view.queueEvent(new Runnable() {
-						public void run() {
-							_callback.call("onVideoSkipped", new Object[] {});
-					}});
-			}
+					@Override
+					public void onRewardedVideoAdRewarded(Placement placement) {
+						Log.d(TAG, "onRewardedVideoAdRewarded" + " " + placement);
+						giveReward = true;
+						rewardSended = false;
+					}
+					
+					@Override
+					public void onRewardedVideoAdShowFailed(IronSourceError error) {
+						Log.d(TAG, "onRewardedVideoAdShowFailed " + error);
+						giveReward = false;
+						rewardSended = false;
 
-			@Override
-			public void onRewardedVideoAdOpened() {
-				Log.d(TAG, "onRewardedVideoAdOpened");
+						if (Extension.mainView == null) return;
+							GLSurfaceView view = (GLSurfaceView) Extension.mainView;
+							view.queueEvent(new Runnable() {
+								public void run() {
+									_callback.call("onVideoSkipped", new Object[] {});
+							}});
+					}
 
-				if (Extension.mainView == null) return;
-				GLSurfaceView view = (GLSurfaceView) Extension.mainView;
-				view.queueEvent(new Runnable() {
-					public void run() {
-						_callback.call("onRewardedDisplaying", new Object[] {});
-				}});
-			}
-			
-			
-			@Override
-			public void onRewardedVideoAdClicked(Placement placement) {
-				Log.d(TAG, "onRewardedVideoAdClicked");
+					@Override
+					public void onRewardedVideoAdOpened() {
+						Log.d(TAG, "onRewardedVideoAdOpened");
 
-				if (Extension.mainView == null) return;
-				GLSurfaceView view = (GLSurfaceView) Extension.mainView;
-				view.queueEvent(new Runnable() {
-					public void run() {
-						_callback.call("onRewardedClick", new Object[] {});
-				}});
-			}
+						if (Extension.mainView == null) return;
+						GLSurfaceView view = (GLSurfaceView) Extension.mainView;
+						view.queueEvent(new Runnable() {
+							public void run() {
+								_callback.call("onRewardedDisplaying", new Object[] {});
+						}});
+					}
+					
+					
+					@Override
+					public void onRewardedVideoAdClicked(Placement placement) {
+						Log.d(TAG, "onRewardedVideoAdClicked");
 
-			@Override
-			public void onRewardedVideoAdStarted() {
-				Log.d(TAG, "onRewardedVideoAdStarted");
-			}
-			
-			@Override
-			public void onRewardedVideoAdEnded() {
-				Log.d(TAG, "onRewardedVideoAdEnded");
-				
+						if (Extension.mainView == null) return;
+						GLSurfaceView view = (GLSurfaceView) Extension.mainView;
+						view.queueEvent(new Runnable() {
+							public void run() {
+								_callback.call("onRewardedClick", new Object[] {});
+						}});
+					}
+
+					@Override
+					public void onRewardedVideoAdStarted() {
+						Log.d(TAG, "onRewardedVideoAdStarted");
+					}
+					
+					@Override
+					public void onRewardedVideoAdEnded() {
+						Log.d(TAG, "onRewardedVideoAdEnded");
+						
+					}
+				});
+
 			}
 		});
 
-        IronSource.init(Extension.mainActivity, appKey);
-    }
+		IronSource.init(Extension.mainActivity, appKey);
+	}
 	
 	public static void showRewarded() {
 		if (!IronSource.isRewardedVideoAvailable()) return;
