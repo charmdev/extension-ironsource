@@ -49,6 +49,13 @@ class IronSource {
 		return canshow;
 	}
 
+	private static function clearCB() {
+		completeCB = null;
+		skipCB = null;
+		viewCB = null;
+		clickCB = null;
+	}
+
 	public static function showRewarded(cb, skip, displaying, click) {
 		
 		canshow = false;
@@ -84,13 +91,21 @@ class IronSource {
 		{
 			trace("IS REWARDED COMPLETED");
 			dispatchEventIfPossibleIS("CLOSED");
-			if (completeCB != null) completeCB();
+			if (completeCB != null)
+			{
+				completeCB();
+				clearCB();
+			}
 		}
 		else if (event == "IS_rewardedskip")
 		{
 			trace("IS REWARDED VIDEO IS SKIPPED");
 			dispatchEventIfPossibleIS("CLOSED");
-			if (skipCB != null) skipCB();
+			if (skipCB != null)
+			{
+				skipCB();
+				clearCB();
+			}
 		}
 		else if (event == "IS_rewarded_displaying")
 		{
@@ -134,13 +149,21 @@ class IronSource {
 	{
 		trace("IS REWARDED COMPLETED");
 		dispatchEventIfPossibleIS("CLOSED");
-		if (completeCB != null) completeCB();
+		if (completeCB != null)
+		{
+			completeCB();
+			clearCB();
+		}
 	}
 	public function onVideoSkipped()
 	{
 		trace("IS REWARDED VIDEO IS SKIPPED");
 		dispatchEventIfPossibleIS("CLOSED");
-		if (skipCB != null) skipCB();
+		if (skipCB != null)
+		{
+			skipCB();
+			clearCB();
+		}
 	}
 	
 #end
