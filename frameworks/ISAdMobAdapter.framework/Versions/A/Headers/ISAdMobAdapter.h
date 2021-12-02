@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "IronSource/ISBaseAdapter+Internal.h"
 
-static NSString * const AdMobAdapterVersion = @"4.3.27";
-static NSString * GitHash = @"917b282c8";
+static NSString * const AdMobAdapterVersion = @"4.3.28";
+static NSString * GitHash = @"6eb86d547";
 
 //System Frameworks For AdMob Adapter
 
