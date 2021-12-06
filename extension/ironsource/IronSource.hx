@@ -20,6 +20,8 @@ class IronSource {
 	private static var clickCB:Void->Void;
 	private static var canshow:Bool = false;
 	public static var onRewardedEvent:String->Void = null;
+	public static var onStatsEvent:String->Void = null;
+
 
 
 	public static function init(appkey:String) {
@@ -66,7 +68,6 @@ class IronSource {
 		skipCB = skip;
 		viewCB = displaying;
 		clickCB = click;
-
 
 		try {
 			__showRewarded();
@@ -131,6 +132,12 @@ class IronSource {
 		trace("IS REWARDED CAN SHOW");
 	}
 
+	public function onRewardedImpressionData(data:String)
+	{
+		trace("IS REWARDED ImpressionData");
+		dispatchStatsEvent(data);
+	}
+
 	public function onRewardedDisplaying()
 	{
 		trace("IS REWARDED Displaying");
@@ -167,6 +174,16 @@ class IronSource {
 	}
 	
 #end
+
+	private static function dispatchStatsEvent(data:String):Void
+	{
+		if (onStatsEvent != null) {
+			onStatsEvent(data);
+		}
+		else {
+			trace('no stats event handler');
+		}
+	}
 
 	private static function dispatchEventIfPossibleIS(e:String):Void
 	{

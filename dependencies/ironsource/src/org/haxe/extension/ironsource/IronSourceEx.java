@@ -1,5 +1,6 @@
 package org.haxe.extension.ironsource;
 
+import org.json.JSONObject;
 import android.util.Log;
 import org.haxe.extension.Extension;
 import org.haxe.lime.HaxeObject;
@@ -10,6 +11,8 @@ import com.ironsource.mediationsdk.integration.IntegrationHelper;
 import com.ironsource.mediationsdk.logger.IronSourceError;
 import com.ironsource.mediationsdk.model.Placement;
 import com.ironsource.mediationsdk.sdk.RewardedVideoListener;
+import com.ironsource.mediationsdk.impressionData.ImpressionDataListener;
+import com.ironsource.mediationsdk.impressionData.ImpressionData;
 
 
 public class IronSourceEx extends Extension
@@ -27,6 +30,26 @@ public class IronSourceEx extends Extension
 		//IntegrationHelper.validateIntegration(Extension.mainActivity);
 		//IronSource.shouldTrackNetworkState(Extension.mainActivity, true);
 		IronSourceEx.initIS(appkey, "");
+
+		ImpressionDataListener mImpressionListener = new ImpressionDataListener() {
+
+			@Override
+			public void onImpressionSuccess(ImpressionData impressionData)
+			{
+				final JSONObject allData =  impressionData.getAllData(); 
+
+				Log.d(TAG, "IS rewarded onImpressionSuccess" + allData.toString());
+
+				if (Extension.mainView == null) return;
+				GLSurfaceView view = (GLSurfaceView) Extension.mainView;
+				view.queueEvent(new Runnable() {
+					public void run() {
+						_callback.call1("onRewardedImpressionData", allData.toString());
+				}});
+			}
+		};
+
+		IronSource.addImpressionDataListener(mImpressionListener);
 	}
 
 	public static void initIS(String appKey, String userId) {
