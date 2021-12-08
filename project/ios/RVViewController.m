@@ -2,7 +2,7 @@
 #import "RVViewController.h"
 #import <IronSource/IronSource.h>
 
-@interface RVViewController () <ISRewardedVideoDelegate>
+@interface RVViewController () <ISRewardedVideoDelegate, ISImpressionDataDelegate>
 
 @property (assign) BOOL sentResult;
 @property (assign) BOOL giveReward;
@@ -13,7 +13,7 @@
 
 @implementation RVViewController
 
-extern "C" void ISsendAdsEvent(char* event);
+extern "C" void ISsendAdsEvent(const char* event);
 
 
 - (void)init:(NSString *)appkey {
@@ -22,6 +22,7 @@ extern "C" void ISsendAdsEvent(char* event);
 	//[IronSource setAdaptersDebug:YES];
 	
 	[IronSource setRewardedVideoDelegate:self];
+	[IronSource addImpressionDataDelegate:self];
 	[IronSource initWithAppKey:appkey];
 }
 
@@ -39,6 +40,28 @@ extern "C" void ISsendAdsEvent(char* event);
 		
 		[IronSource showRewardedVideoWithViewController:viewController];
 	}
+}
+
+- (NSString *)getJsonFromObj:(id)obj {
+	NSError *error;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:obj options:0 error:&error];
+	
+	if (!jsonData) {
+		NSLog(@"Got an error: %@", error);
+		return @"";
+	} else {
+		NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+		return jsonString;
+	}
+}
+
+- (void)impressionDataDidSucceed:(ISImpressionData *)impressionData
+{
+	NSLog(@"%s", __PRETTY_FUNCTION__);
+
+	const char *jsonString=[self getJsonFromObj:[impressionData all_data]].UTF8String;
+
+	ISsendAdsEvent(jsonString);
 }
 
 - (void)rewardedVideoHasChangedAvailability:(BOOL)available {

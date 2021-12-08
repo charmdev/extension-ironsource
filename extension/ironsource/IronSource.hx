@@ -121,6 +121,9 @@ class IronSource {
 			if (clickCB != null) clickCB();
 		}
 		
+		if (event.charAt(0) == "{")
+			dispatchStatEvent(event);
+		
 	}
 #elseif android
 
@@ -182,6 +185,16 @@ class IronSource {
 		}
 		else {
 			trace('no stats event handler');
+		}
+	}
+
+	private static function dispatchStatEvent(e:String):Void
+	{
+		if (onStatsEvent != null) {
+			onStatsEvent(e);
+		}
+		else {
+			trace('no event handler');
 		}
 	}
 
