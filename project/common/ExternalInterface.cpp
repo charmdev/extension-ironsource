@@ -47,7 +47,12 @@ extern "C" int ironsourceex_register_prims () { return 0; }
 extern "C" void ISsendAdsEvent(const char* type)
 {
 	printf("IS Send Event: %s\n", type);
-	value o = alloc_empty_object();
-	alloc_field(o,val_id("type"),alloc_string(type));
-	val_call1(is_adsEventHandle->get(), o);
+
+	if (type)
+	{
+		value o = alloc_empty_object();
+		alloc_field(o,val_id("type"),alloc_string(type));
+		val_call1(is_adsEventHandle->get(), o);
+	}
+	
 }
