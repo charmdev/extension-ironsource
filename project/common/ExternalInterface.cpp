@@ -48,11 +48,8 @@ extern "C" void ISsendAdsEvent(const char* type)
 {
 	printf("IS Send Event: %s\n", type);
 
-	if (type)
-	{
-		value o = alloc_empty_object();
-		alloc_field(o,val_id("type"),alloc_string(type));
-		val_call1(is_adsEventHandle->get(), o);
-	}
+	value o = alloc_empty_object();
+	alloc_field(o,val_id("type"),alloc_string(type));
+	val_call1(is_adsEventHandle->get(), o);
 	
 }

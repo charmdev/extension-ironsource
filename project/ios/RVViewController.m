@@ -61,7 +61,7 @@ extern "C" void ISsendAdsEvent(const char* event);
 
 	const char *jsonString=[self getJsonFromObj:[impressionData all_data]].UTF8String;
 
-	ISsendAdsEvent(jsonString);
+	//ISsendAdsEvent(jsonString);
 }
 
 - (void)rewardedVideoHasChangedAvailability:(BOOL)available {
